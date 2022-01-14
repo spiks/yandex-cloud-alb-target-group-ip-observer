@@ -23,5 +23,6 @@ export const config = {
   sentry: {
     environment: process.env['SENTRY_ENVIRONMENT'],
     dsn: process.env['SENTRY_DSN'],
+    release: process.env['APP_VERSION'],
   },
 };
