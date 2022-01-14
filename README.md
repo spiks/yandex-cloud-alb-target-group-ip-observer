@@ -42,6 +42,7 @@ The minimum amount of permissions should be granted to the service account:
 
 - `alb.editor`
 - `k8s.viewer`
+- `compute.viewer`
 
 #### `CHECK_FREQUENCY`
 
