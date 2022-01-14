@@ -27,4 +27,4 @@ ENV APP_VERSION="$APP_VERSION"
 COPY --from=npm /app/node_modules /app/node_modules
 COPY --from=build /app/src /app/src
 
-ENTRYPOINT ["node", "src/worker.js"]
+ENTRYPOINT ["node", "src/index.js"]
