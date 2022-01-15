@@ -9,7 +9,7 @@ type GetComputeInstanceResponse = {
   }>;
 };
 
-const getPrivateIpOfComputeInstance = async (iamToken: string, instanceId: string): Promise<Array<string>> => {
+const getPrivateIpAddressesOfComputeInstance = async (iamToken: string, instanceId: string): Promise<Array<string>> => {
   logger.debug(`Fetching compute instance with ID ${instanceId}...`);
 
   const computeInstanceResponse = await fetch(
@@ -56,7 +56,7 @@ export const listPrivateIpAddressesOfKubernetesNodes = async (
   const listNodesData: ListNodesResponse = await listNodesResponse.json();
 
   const ips = await Promise.all(
-    listNodesData.nodes.map((node) => getPrivateIpOfComputeInstance(iamToken, node.cloudStatus.id)),
+    listNodesData.nodes.map((node) => getPrivateIpAddressesOfComputeInstance(iamToken, node.cloudStatus.id)),
   );
 
   // flattens array of arrays into one flat array of ips
