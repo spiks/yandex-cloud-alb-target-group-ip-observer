@@ -1,4 +1,4 @@
-FROM node:16.13-alpine3.14 as npm
+FROM node:16.14.0-alpine3.14 as npm
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY ./package-lock.json /app/package-lock.json
 
 RUN npm ci --production
 
-FROM node:16.13-alpine3.14 as build
+FROM node:16.14.0-alpine3.14 as build
 
 WORKDIR /app
 
@@ -17,7 +17,7 @@ COPY --from=npm /app/node_modules /app/node_modules
 
 RUN npx tsc
 
-FROM node:16.13-alpine3.14
+FROM node:16.14.0-alpine3.14
 
 WORKDIR /app
 
