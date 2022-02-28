@@ -6,7 +6,7 @@
   "dependencies": {
     "@sentry/node": "6.16.1",
     "@types/jsonwebtoken": "8.5.8",
-    "@types/node": "16.11.19",
+    "@types/node": "16.11.26",
     "@types/node-fetch": "2.5.12",
     "jsonwebtoken": "8.5.1",
     "node-fetch": "2.6.7",
