@@ -1,4 +1,7 @@
 import assert from 'assert';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 assert(process.env['YC_KUBERNETES_CLUSTER_ID'], 'Environment variable YC_KUBERNETES_CLUSTER_ID should be defined');
 assert(process.env['YC_ALB_TARGET_GROUP_ID'], 'Environment variable YC_ALB_TARGET_GROUP_ID should be defined');
