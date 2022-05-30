@@ -24,6 +24,8 @@ WORKDIR /app
 ARG APP_VERSION
 ENV APP_VERSION="$APP_VERSION"
 
+ENV NODE_ENV=production
+
 COPY --from=npm /app/node_modules /app/node_modules
 COPY --from=build /app/src /app/src
 
