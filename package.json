@@ -25,6 +25,6 @@
     "eslint-plugin-typescript-sort-keys": "2.1.0",
     "eslint-plugin-unused-imports": "2.0.0",
     "prettier": "2.6.2",
-    "ts-node": "10.4.0"
+    "ts-node": "10.8.0"
   }
 }
