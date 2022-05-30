@@ -10,9 +10,15 @@ assert(
   'Environment variable YC_SERVICE_ACCOUNT_KEY_FILE should be defined and it should contain valid IAM key for service account in JSON format, see https://cloud.yandex.ru/docs/iam/operations/iam-token/create-for-sa',
 );
 
+const parsedServiceAccountKeyFile = JSON.parse(process.env['YC_SERVICE_ACCOUNT_KEY_FILE']);
+
 export const config = {
   yandexCloud: {
-    serviceAccountKeyFile: process.env['YC_SERVICE_ACCOUNT_KEY_FILE'],
+    serviceAccount: {
+      serviceAccountId: parsedServiceAccountKeyFile.service_account_id,
+      accessKeyId: parsedServiceAccountKeyFile.id,
+      privateKey: parsedServiceAccountKeyFile.private_key,
+    },
     kubernetesCluster: {
       id: process.env['YC_KUBERNETES_CLUSTER_ID'],
     },
