@@ -1,9 +1,9 @@
 import { config } from './config';
-import { issueIamToken } from './yandexCloud/iam';
-import { listPrivateIpAddressesOfKubernetesNodes } from './yandexCloud/ipResolver';
-import { getIpsUsedInTargetGroup, updateIpsInTargetGroup } from './yandexCloud/applicationLoadBalancer';
+import { getIpsUsedInTargetGroup, updateIpsInTargetGroup } from './yandexCloud/targetGroup';
 import * as sentry from '@sentry/node';
 import type { NodeOptions } from '@sentry/node/dist/types';
+import { listPrivateIpAddressesOfKubernetesNodes } from './yandexCloud/managedKubernetes';
+import { logger } from './logger';
 
 const sleep = (ms: number): Promise<void> => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
@@ -28,20 +28,19 @@ if (config.sentry.dsn !== undefined) {
 }
 
 (async (): Promise<never> => {
-  while (true) {
-    const iamToken = await issueIamToken(config.yandexCloud.serviceAccountKeyFile);
+  logger.info(
+    `Waiting until IP desynchronization occurs in Kubernetes Nodes (cluster "${config.yandexCloud.kubernetesCluster.id}") and Application Load Balancer (target group "${config.yandexCloud.applicationLoadBalancer.targetGroup.id}"), checking every ${config.checkFrequency} ms...`,
+  );
 
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
     const [kubernetesNodeIps, targetGroupIps] = await Promise.all([
-      listPrivateIpAddressesOfKubernetesNodes(iamToken, config.yandexCloud.kubernetesCluster.id),
-      getIpsUsedInTargetGroup(iamToken, config.yandexCloud.applicationLoadBalancer.targetGroup.id),
+      listPrivateIpAddressesOfKubernetesNodes(),
+      getIpsUsedInTargetGroup(),
     ]);
 
     if (!areIpsSame(kubernetesNodeIps, targetGroupIps)) {
-      await updateIpsInTargetGroup(
-        iamToken,
-        config.yandexCloud.applicationLoadBalancer.targetGroup.id,
-        kubernetesNodeIps,
-      );
+      await updateIpsInTargetGroup(kubernetesNodeIps);
     }
 
     await sleep(config.checkFrequency);

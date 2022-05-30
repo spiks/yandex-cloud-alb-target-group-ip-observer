@@ -24,34 +24,4 @@ The daemon distributed as Docker image. [Check out Packages page of this reposit
 
 ### Configuration
 
-The daemon is only configurable via environment variables listed below.
-
-#### `YC_KUBERNETES_CLUSTER_ID`
-
-**Required.** Identifier of Kubernetes cluster.
-
-#### `YC_ALB_TARGET_GROUP_ID`
-
-**Required.** Identifier of Application Load Balancer Target Group.
-
-#### `YC_SERVICE_ACCOUNT_KEY_FILE`
-
-**Required.** Service account IAM token in JSON format. [See official documentation how to issue such token](https://cloud.yandex.ru/docs/iam/operations/iam-token/create-for-sa).
-
-The minimum amount of permissions should be granted to the service account:
-
-- `alb.editor`
-- `k8s.viewer`
-- `compute.viewer`
-
-#### `CHECK_FREQUENCY`
-
-How often this service should check for IP changes, in milliseconds. Default value is `10000` (10 seconds).
-
-#### `SENTRY_DSN`
-
-Sentry DSN.
-
-#### `SENTRY_ENVIRONMENT`
-
-Sentry environment.
+The daemon is only configurable via environment variables. For documentation, see [`.env.dist`](./.env.dist) file.

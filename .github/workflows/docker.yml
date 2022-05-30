@@ -33,6 +33,6 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
           build-args: |
-            APP_VERSION=yandex-cloud-alb-target-group-ip-observer@${{ github.event.release.tag_name }}
+            APP_VERSION=${{ github.event.repository.name }}@${{ github.event.release.tag_name }}
           cache-from: type=gha
           cache-to: type=gha
