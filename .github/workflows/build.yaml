@@ -1,0 +1,36 @@
+name: Build
+
+on: pull_request
+
+jobs:
+  typescript:
+    name: TypeScript
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3.0.2
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-npm-production-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-production-
+            ${{ runner.os }}-npm-
+
+      - name: Install npm dependencies
+        run: npm ci --production --prefer-offline
+
+      - name: Run TypeScript compiler
+        run: npx tsc
