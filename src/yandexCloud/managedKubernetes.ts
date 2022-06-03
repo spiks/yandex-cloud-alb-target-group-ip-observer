@@ -5,7 +5,7 @@ import { getPrivateIpAddressesOfComputeInstance } from './compute';
 import { issueIamToken } from './client';
 
 type ListNodesResponse = {
-  nodes: Array<{
+  nodes?: Array<{
     cloudStatus: {
       id: string;
     };
@@ -29,7 +29,7 @@ export const listPrivateIpAddressesOfKubernetesNodes = async (): Promise<Array<s
   const listNodesData: ListNodesResponse = await listNodesResponse.json();
 
   const ips = await Promise.all(
-    listNodesData.nodes.map((node) => getPrivateIpAddressesOfComputeInstance(node.cloudStatus.id)),
+    (listNodesData.nodes ?? []).map((node) => getPrivateIpAddressesOfComputeInstance(node.cloudStatus.id)),
   );
 
   // flattens array of arrays into one flat array of ips
