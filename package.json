@@ -4,7 +4,7 @@
     "node": ">=16"
   },
   "dependencies": {
-    "@sentry/node": "6.19.7",
+    "@sentry/node": "7.3.1",
     "@types/jsonwebtoken": "8.5.8",
     "@types/node": "16.11.36",
     "@types/node-fetch": "2.5.12",
